@@ -1,0 +1,292 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="la_femme_no_fatale.Site1" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+    <title>la femme не fatale</title>
+
+    <!-- Подключаем таблицы стилей -->
+    <link rel="stylesheet" type="text/css" href="./css/style1.css" />
+    <link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.5/css/swiper.min.css">
+
+
+
+    <!-- Подключаем джава скрипт -->
+    <script src="./js/script.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.jquery.min.js'></script>
+    <script src="./script.js"></script>
+
+
+    <script src='https://code.jquery.com/jquery-3.1.1.slim.min.js'></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <!--для анимации-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+
+    <!--для toggle-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <!-- VK comments -->
+    <script type="text/javascript" src="https://vk.com/js/api/openapi.js?167"></script>
+    <!-- VK share -->
+    <script type="text/javascript" src="https://vk.com/js/api/share.js?95" charset="windows-1251"></script>
+
+
+    <style type="text/css">
+        .auto-style6 {
+            margin-bottom: 1px;
+        }
+
+        .auto-style7 {
+            margin-top: 0px;
+        }
+
+        .auto-style18 {
+            width: 1677px;
+            margin-left: 1px;
+        }
+
+        .auto-style20 {
+            height: 305px;
+        }
+
+        /*Всплывающие окна*/
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            transition: opacity 500ms;
+            visibility: hidden;
+            opacity: 0;
+            z-index: 1;
+        }
+
+            .overlay:target {
+                visibility: visible;
+                opacity: 1;
+            }
+
+        @media screen and (max-width: 700px) {
+            .box {
+                width: 70%;
+            }
+
+            .popup {
+                width: 70%;
+            }
+        }
+
+        .popup {
+            transition: all 5s ease-in-out;
+        }
+
+            .popup h2 {
+                margin-top: 0;
+                color: #333;
+                font-family: 'Comfortaa';
+            }
+
+            .popup .close {
+                position: absolute;
+                top: 20px;
+                right: 30px;
+                transition: all 200ms;
+                font-size: 30px;
+                font-weight: bold;
+                text-decoration: none;
+                color: #000;
+            }
+
+                .popup .close:hover {
+                    color: #06D85F;
+                }
+
+            .popup .content {
+                max-height: 30%;
+                overflow: auto;
+                color: #114e8f; /**/
+            }
+
+        .auto-style24 {
+            width: 326px;
+            height: 130px;
+        }
+    </style>
+
+</head>
+
+
+
+<body style="left: 0px; top: 0px; height: 715px">
+    <form id="form1" runat="server">
+
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+
+        <!--=======Вертикальное меню========-->
+        <input type="checkbox" id="menu" />
+        <label for="menu" class="menu">
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </label>
+
+        <nav class="nav">
+
+            <ul>
+                <li id="Home"><a href="Home.aspx" runat="server">Главная</a></li>
+                <li id="Catalog"><a href="Catalog.aspx" runat="server">Каталог статей</a></li>
+                <li id="Media" onclick="Media_Click"><a href="Media.aspx" runat="server">Медиаподборка</a></li>
+                <li id="Forms" onclick="Forms_Click"><a href="Forms.aspx" runat="server">Опросы</a></li>
+                <li id="Create" onclick="Create_Click"><a href="Create.aspx" runat="server">Авторство</a></li>
+            </ul>
+            <asp:Label ID="Label1" runat="server" Style="text-align: center; position: absolute; bottom: 0; padding: 21px;"><a href="#popup1" style="text-decoration:none; color:#25a48d;"><h2>Выйти</h2></a></asp:Label>
+
+        </nav>
+
+
+        <!--========================================ОСНОВНАЯ ЧАСТЬ========================================-->
+        <main>
+
+            <div class="stars small"></div>
+            <div class="stars medium"></div>
+            <div class="stars large"></div>
+            <!--=======Горизонтальное меню и логотип========-->
+
+            <div id="header" class="auto-style20" style="font-variant: small-caps">
+                <div class="logo">
+                    <figure style="padding-top: 60px; text-align: center">
+                        <a href="Home.aspx">
+                            <img src="logos/thelogo.png"
+                                alt="https://i.pinimg.com/564x/f2/e2/be/f2e2be9c898073fe590268b27d6fa36e.jpg" class="auto-style24" />
+                        </a>
+                    </figure>
+                </div>
+
+                <!--------------------------------------------------------------------->
+
+                <br />
+                <br />
+                <div class="auto-style17">
+                    <h1 style="font-variant: small-caps; font-weight: 900; text-transform: none; font-style: normal; text-align: justify; vertical-align: middle; letter-spacing: 0.3em; caption-side: inherit;">
+                        <asp:ContentPlaceHolder ID="head" runat="server">
+                        </asp:ContentPlaceHolder>
+                    </h1>
+                </div>
+                <br />
+
+            </div>
+
+            <!--=======Контент========-->
+
+            <div class="container">
+                <div id="popup1" class="overlay" style="z-index: 1">
+
+                    <div class="popup">
+
+                        <div class="cont" style="left: 0px; margin: 30px; padding: 21px; margin-left: auto; margin-right: auto; vertical-align: central; position: relative; z-index: 1; width: 30%; height: auto; display: block;">
+                            <a class="close" href="#">&times;</a>
+                            <h2>Завершить сеанс?</h2>
+                            <div class="media">
+                                
+                                <button style="width: 50%; height: auto;"><asp:Button ID="ButtonQ" onclick="ButtonQ_Click" runat="server" Text="ДА" Font-Bold="True" BorderStyle="None" ForeColor="#25A48D" /></button>
+                                <button style="width: 50%; height: auto;"><a href="#">Нет</button>
+
+                            </div>
+                            <label><a style="text-align: center; color: brown; width: 100%;" href="Leave.aspx">Удалить аккаунт</a></label>
+
+                        </div>
+
+                        <script>
+                            //кнопки
+                            document.querySelector('.imag__btn').addEventListener('click', function () {
+                                document.querySelector('.cont').classList.toggle('s--signup');
+                            });
+                        </script>
+                    </div>
+                </div>
+                <div style="z-index: 6789;">
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server" ViewStateMode="Enabled">
+                        <p class="auto-style18" contenteditable="true" style="padding: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                        </p>
+                    </asp:ContentPlaceHolder>
+                </div>
+            </div>
+
+            <!--=======Низ сайта=======-->
+            <footer style="left: 0px; top: 158px; height: 189px; text-align: center">
+
+                <le style="text-align: right; display: inline-block;">
+                        <ul>
+                            <li><a href="About.aspx">О нас</a></li>
+                            <li><a href="Confidence.aspx">Конфиденциальность</a></li>
+                            <li><a href="Copyright.aspx">Copyright Policy</a></li>
+                        </ul>
+                    </le>
+
+                <ce style="text-align: center; color: #FFFFFF; display: inline-block;">
+                        <h1>&copy; 2020 la femme не fatal</h1>
+                        <h2">Все права защищены.</h2>
+
+                    </ce>
+
+                <ri style="text-align: left; display: inline-block;">
+                        <ul class="social">
+                            <li><a href="https://www.facebook.com/sharer/sharer.php?u=">
+                                <i class="fa fa-facebook" aria-hidden="true"></i>
+                            </a></li>
+                                                        <li>
+                                <script type="text/javascript">
+                                    document.write(VK.Share.button(false, { type: "custom", text: "<img src=\"https://vk.com/images/share_32.png\" width=\"27\" height=\"27\" />" }));
+                                </script>
+                            </li>
+                            <li><a href="https://twitter.com/share">
+                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                            </a></li>
+
+                        </ul>
+                    </ri>
+            </footer>
+
+
+        </main>
+    </form>
+</body>
+</html>
+
+<script>
+    $(function () {
+        // (Optional) Active an item if it has the class "is-active"
+        $(".accordion > .accordion-item.is-active").children(".accordion-panel").slideDown();
+
+        $(".accordion > .accordion-item").click(function () {
+            // Cancel the siblings
+            $(this).siblings(".accordion-item").removeClass("is-active").children(".accordion-panel").slideUp();
+            // Toggle the item
+            $(this).toggleClass("is-active").children(".accordion-panel").slideToggle("ease-out");
+        });
+    });
+</script>
+

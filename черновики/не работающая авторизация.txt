@@ -1,0 +1,142 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
+
+namespace la_femme_no_fatale
+{
+    public partial class Enter : System.Web.UI.Page
+    {
+        private SqlConnection sqlConnection = null;
+        protected async void Page_Load(object sender, EventArgs e)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["LaFemmeDatabaseConnectionString"].ConnectionString; //***???
+
+            sqlConnection = new SqlConnection(connectionString);
+
+            await sqlConnection.OpenAsync();
+
+            TextBox1.ToolTip = "Логин";
+            TextBox2.ToolTip = "Пароль";
+
+            TextBox3.ToolTip = "Имя";
+            TextBox4.ToolTip = "Логин";
+            TextBox5.ToolTip = "Пароль";
+        }
+        
+        //Кнопка Войти
+        protected async void Button1_Click(object sender, EventArgs e)
+        {
+            if (Page.IsValid)
+            {
+                Dictionary<string, string> db = new Dictionary<string, string>();
+                SqlCommand getUsersCredCmd = new SqlCommand("SELECT [login], [password] FROM [Users]", sqlConnection);
+                SqlDataReader sqlReader = null;
+
+                try
+                {
+                    sqlReader = await getUsersCredCmd.ExecuteReaderAsync(); //cоздали экземпляр классa sqlReader
+
+                    while (await sqlReader.ReadAsync()) //пока есть возможность считывать таблицу
+                    {
+                        db.Add(Convert.ToString(sqlReader["login"]), Convert.ToString(sqlReader["password"])); //при каждой итерации полчаем логин и пароль из текущей строки
+                    }
+                }
+                catch {  }
+                finally
+                {
+                    if (sqlReader != null)
+                        sqlReader.Close();
+                }
+                
+                if (TextBox2.Text == db[TextBox1.Text]) //введённый пароль сравним с паролем, полученным из бд по логину
+                {
+                    Label1.Text = "Теперь можешь везде заходить!";
+
+                    HttpCookie login = new HttpCookie("login", TextBox1.Text);
+                    HttpCookie sign = new HttpCookie("sign", SignGenerator.GetSign(TextBox1.Text + "bytepp"));
+
+                    Response.Cookies.Add(login);
+                    Response.Cookies.Add(sign);
+
+                    Response.Redirect("Home.aspx");
+                }
+                else
+                {
+                        Label1.Text = "Что-то не так!";
+                }
+
+
+            }
+        }
+
+
+
+        //Кнопка регистрации              
+        protected async void Button2_Click(object sender, EventArgs e)
+        {
+            if (Page.IsValid)
+            {
+
+                Dictionary<string, string> db = new Dictionary<string, string>();
+
+                SqlCommand getUsersCredCmd = new SqlCommand("SELECT [login], [password] FROM [Users]", sqlConnection);
+
+                SqlDataReader sqlReader = null;
+
+                try
+                {
+                    sqlReader = await getUsersCredCmd.ExecuteReaderAsync(); //cоздали экземпляр классa sqlReader
+
+                    while (await sqlReader.ReadAsync())
+                    {
+                        db.Add(Convert.ToString(sqlReader["login"]), Convert.ToString(sqlReader["password"]));
+                    }
+
+                }
+                catch { }
+                finally
+                {
+                    if (sqlReader != null)
+                        sqlReader.Close();
+                }
+
+                Random rnd = new Random();
+                if (!db.Keys.Contains(TextBox4.Text))  //если такого ключа ещё нет
+                {
+                    SqlCommand regUser = new SqlCommand("INSERT INTO [Users] (id, name, login, password)VALUES(@id, @name, @login, @password)", sqlConnection);
+
+                    regUser.Parameters.AddWithValue("id", rnd.Next(2, 10000));
+                    regUser.Parameters.AddWithValue("name", TextBox3.Text);
+                    regUser.Parameters.AddWithValue("login", TextBox4.Text);
+                    regUser.Parameters.AddWithValue("password", TextBox5.Text);
+
+
+                    await regUser.ExecuteNonQueryAsync();
+
+                    Label1.Text = "Поздравляем! </br>Ты теперь часть сообщества la femme не fatale.";
+                    TextBox1.Text = TextBox4.Text;
+                    TextBox2.Text = TextBox5.Text;
+                }
+                else
+                {
+                    string script = "aleart('Такой логин уже есть!');";
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "MessageBox", script, true);
+                }
+            }
+
+        }
+
+        //закрываем подключение, если оно ещё не закрыто
+        protected void Page_Unload(object sender, EventArgs e)
+        {
+            if (sqlConnection != null && sqlConnection.State != ConnectionState.Closed)
+                sqlConnection.Close();
+        }
+    }
+}

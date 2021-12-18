@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+  <siteMapNode url="~/Home.aspx" title="la femme не fatale"  description="Главная страница">
+    <siteMapNode url="~/Catalog.aspx" title="Каталог статей"  description="Все статьи">
+      <siteMapNode url="~/Article-1_Self-isolation.aspx" title="Остаёмся дома!"  description="Первая статья" />
+      <siteMapNode url="~/Article-2_Women19.aspx" title="Женщины XIX века"  description="2 статья" />
+      <siteMapNode url="~/Article-3_NoMarriage.aspx" title="Нет институту брака!"  description="3 статья" />
+    </siteMapNode>
+  </siteMapNode>
+</siteMap>

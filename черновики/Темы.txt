@@ -1,0 +1,17 @@
+  <location path="App_Themes">
+    <system.web>
+      <authorization>
+        <allow users="*"/>
+      </authorization>
+    </system.web>
+  </location>
+
+
+  
+  <StackPanel Orientation="Horizontal">
+    <ToggleSwitch la_femme_no_fatale:Name="ToggleSwitch1" IsOn="True"/>
+    <system.web>
+    <pages theme="Night" />
+    <!--<pages theme="Day" />-->    
+  </system.web>
+  </StackPanel>

@@ -1,0 +1,38 @@
+                Dictionary<string, string> db = new Dictionary<string, string>();
+
+                SqlCommand getUsersCredCmd = new SqlCommand("Select * From Users where login=' " + TextBox1.Text + " ' and password=' " + TextBox2.Text + " ' ", sqlConnection);
+
+                SqlDataReader sqlReader = null;
+
+                try
+                {
+                    sqlReader = await getUsersCredCmd.ExecuteReaderAsync(); //cоздали экземпляр классa sqlReader
+
+                    while (await sqlReader.ReadAsync())
+                    {
+                        db.Add(Convert.ToString(sqlReader["login"]), Convert.ToString(sqlReader["password"]));
+                    }
+
+                }
+                catch { }
+                finally
+                {
+                    if (sqlReader != null)
+                        sqlReader.Close();
+                }
+
+                if (TextBox2.Text == db[TextBox1.Text]) //введённый пароль сравним с паролем, полученным из бд по логину
+                {
+                    HttpCookie login = new HttpCookie("login", TextBox1.Text);
+                    HttpCookie sign = new HttpCookie("sign", SignGenerator.GetSign(TextBox1.Text + "bytepp"));
+
+                    Response.Cookies.Add(login);
+                    Response.Cookies.Add(sign);
+
+                    Response.Redirect("Create.aspx", false);
+                }
+                else 
+                {
+                    Label1.Text = "Что-то не так!</br> Проверьте заполненные поля.";
+
+                }
